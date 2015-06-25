@@ -44,8 +44,8 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">J. MEY</div>
-                <div class="quote">{{ $user }}</div>
+                <div class="title">{{ Session::put('name' , $user) }}</div>
+                <div class="quote">{{ Session::get('name') }}</div>
             </div>
         </div>
     </body>

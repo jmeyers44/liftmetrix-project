@@ -44,8 +44,14 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
-                <div class="quote">{{ Inspiring::quote() }}</div>
+                <div class="title">Welcome</div>
+                <div class="quote">Please enter a url below:</div>
+                   {!! Form::open(array('url' => '#', 'method' => 'put')) !!}
+                   {!! Form::text('first_name') !!}
+                   {!! Form::submit() !!}
+                   {!! Form::close()!!}
+
+
             </div>
         </div>
     </body>
