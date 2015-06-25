@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 </head>
 <body>
+Hello
 <script>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -40,7 +41,7 @@
 
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '{your-app-id}',
+    appId      : '400334806821379',
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -99,4 +100,4 @@
 </div>
 
 </body>
-</html>login.blade.php
+</html>

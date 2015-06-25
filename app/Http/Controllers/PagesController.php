@@ -1,42 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use App\Page;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
-    {
-        // Schema::create('', function($collection)
-        // {
-        //     $collection->index('name');
-
-        //     $collection->unique('email');
-        // });
-
-
-        $u = new User;
-        $u->name = 'Jonathan';
-        $u->save();
-        $user = User::first()->name;
-        // $user = User::all();
-        
-        $test = "HI";
-        return view('test')->with('user', $user);
-    }
-
-    public function login()
-    {
-        return view('login');
+    public function index($url)
+    {   
+        $page = Page::where('url', $url)->get();
+        return $page;
     }
 
     /**
@@ -44,9 +25,13 @@ class UsersController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create($url)
     {
-        //
+        $p = new Page;
+        $p->url = $url;
+        $p->save();
+        $page = Page::where('url', '==', $url)->get();
+        return $p;
     }
 
     /**

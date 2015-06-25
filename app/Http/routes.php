@@ -17,3 +17,8 @@ Route::get('/', function () {
 
 Route::get('users', 'UsersController@index');
 
+Route::get('login', 'UsersController@login');
+
+Route::get('api/pages/{url}','PagesController@index');
+
+Route::get('api/pages/create/{url}', 'PagesController@create');
