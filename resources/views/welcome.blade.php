@@ -50,9 +50,17 @@
                    {!! Form::text('first_name') !!}
                    {!! Form::submit() !!}
                    {!! Form::close()!!}
-
-
             </div>
         </div>
+        <div style="visibility:hidden;" id="sessionstore"></div>
     </body>
+    <script>
+    document.querySelector('input[type="submit"]').addEventListener("click", function(event){
+        localStorage.clear();
+        event.preventDefault()
+        $url = document.querySelector('input[type="text"]').value;
+        localStorage.setItem('url', $url);
+        window.location.replace("/login");  
+    });
+    </script>
 </html>
