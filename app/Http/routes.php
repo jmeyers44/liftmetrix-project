@@ -1,5 +1,5 @@
 <?php
-
+use App\Page;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -21,4 +21,30 @@ Route::get('login', 'UsersController@login');
 
 Route::get('api/pages/{url}','PagesController@index');
 
-Route::get('api/pages/create/{url}', 'PagesController@create');
+Route::get('/pages/{id}','PagesController@show');
+
+Route::get('/pages/destroy/{id}','PagesController@destroy');
+
+
+// Route::post('api/pages/create/', 'PagesController@create');
+
+Route::post('/pages/create', function () {
+
+  
+  $url   = Request::input('url');
+  $dbPage = Page::whereIN('url', array($url))->get();
+  
+  // if($dbPage[0]['url'] === $url){
+  if($dbPage[0]['url'] === $url){
+    return Response::json("welcome back");
+  }
+  else{
+    $p = new Page;
+    $p->url = $url;
+    $p->save();
+    return  Response::json("Welcome New User");
+  }
+
+
+  // return a JSON response
+});

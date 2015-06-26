@@ -55,7 +55,7 @@
         <div style="visibility:hidden;" id="sessionstore"></div>
     </body>
     <script>
-    document.querySelector('input[type="submit"]').addEventListener("click", function(event){
+        document.querySelector('input[type="submit"]').addEventListener("click", function(event){
         localStorage.clear();
         event.preventDefault()
         $url = document.querySelector('input[type="text"]').value;

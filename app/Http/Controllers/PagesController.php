@@ -25,13 +25,16 @@ class PagesController extends Controller
      *
      * @return Response
      */
-    public function create($url)
+    public function create()
     {
-        $p = new Page;
-        $p->url = $url;
-        $p->save();
-        $page = Page::where('url', '==', $url)->get();
-        return $p;
+        // $p = new Page;
+        // $p->url = $url;
+        // $p->save();
+        // $page = Page::where('url', '==', $url)->get();
+        $data   = array('value' => 'some data', 'input' => Request::input());
+
+  // return a JSON response
+        return  Response::json($data);
     }
 
     /**
@@ -50,9 +53,11 @@ class PagesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $pages = Page::all();
+        return $pages;
+        // return view('new');
     }
 
     /**
@@ -85,6 +90,6 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Page::destroy('558c23da6b3e13bb800041a8');
     }
 }

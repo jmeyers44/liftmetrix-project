@@ -3,10 +3,18 @@
 <head>
 <title>Facebook Login JavaScript Example</title>
 <meta charset="UTF-8">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
 Hello
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+$.ajaxSetup({
+   headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
+});
+</script>
 <script>
+  $(document).ready(function() {
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -17,7 +25,7 @@ Hello
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
+      testAPI(runUserCheck);
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -77,14 +85,83 @@ Hello
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
+  function testAPI(callback) {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     });
+    callback();
   }
+
+  function checkUserAccess(){
+    this.userUrl = localStorage.getItem('url');
+    this.pageId = "";
+    this.pageURL = "";
+    this.userID = "";
+  }
+
+  checkUserAccess.prototype.getUserId = function(){
+    userAuth = FB.getAuthResponse();
+    userID = userAuth.userID
+    this.userID = userID;
+  }
+
+
+  checkUserAccess.prototype.getUserPerms = function(){
+    self = this
+    cb = function(response) {
+      self.pageId = response.data[0].id;
+      FB.api('/' + self.pageId + '', function(response){
+        self.pageURL = response.link
+          if(self.userUrl === self.pageURL){
+              var url = "/pages/create";
+              var message = {url: self.userUrl}
+                  $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: message,
+                    success: function(results){
+                      debugger;
+                    },
+                    dataType: 'JSON'
+                  })
+            console.log('you did it!');
+          //   // window.location.replace("/pages/");
+
+          // $.post('/pages/create', {payload:'hello'}, onSuccess);
+          }
+          else{
+            console.log('fail');
+            window.location.replace("/");
+          }
+      });
+    }
+
+    FB.api('/'+ this.userID + '/accounts', cb);
+      
+
+  }
+        function onSuccess(data, status, xhr)
+      {
+        // with our success handler, we're just logging the data...
+        console.log(data, status, xhr);
+
+        // but you can do something with it if you like - the JSON is deserialised into an object
+        console.log(String(data.value).toUpperCase())
+      }
+
+  checkUserAccess.prototype.checkLink = function(){
+  }
+
+  function runUserCheck(){
+    var c = new checkUserAccess;
+    c.getUserId();
+    c.getUserPerms();
+    c.checkLink();  
+  }
+});
 </script>
 
 <!--
@@ -93,7 +170,7 @@ Hello
   the FB.login() function when clicked.
 -->
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">
