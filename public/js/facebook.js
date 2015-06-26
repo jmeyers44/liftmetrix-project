@@ -101,7 +101,7 @@
         self.pageURL = response.link
           if(self.userUrl === self.pageURL){
               var url = "/pages/create";
-              var message = {url: self.userUrl}
+              var message = {url: self.userUrl};
                   $.ajax({
                     type: 'POST',
                     url: url,
@@ -111,7 +111,6 @@
                     },
                     dataType: 'JSON'
                   })
-            console.log('you did it!');
           }
           else{
             console.log('fail');
@@ -126,6 +125,7 @@
   }
 
   function showInsights(response){
+    console.log(response);
     FB.api('/65663400830/insights/page_impressions/days_28', function(results){
     
     var $pageImpressions = results.data[0].values[2].value;

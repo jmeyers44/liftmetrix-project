@@ -90,6 +90,6 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-        Page::destroy('558c23da6b3e13bb800041a8');
+        Page::destroy($id);
     }
 }

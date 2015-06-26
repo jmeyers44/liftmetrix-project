@@ -15,3 +15,7 @@
 <div id="status">
 
 @stop
+
+@section('scripts')
+<script type="text/javascript" src="{{ asset('js/facebook.js') }}"></script>
+@stop

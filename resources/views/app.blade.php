@@ -18,5 +18,6 @@
       });
     </script>
     <script type="text/javascript" src="{{ asset('js/welcome.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/facebook.js') }}"></script>
+    @yield('scripts')
+    
 </html>

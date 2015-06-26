@@ -25,26 +25,17 @@ Route::get('/pages/{id}','PagesController@show');
 
 Route::get('/pages/destroy/{id}','PagesController@destroy');
 
-
-// Route::post('api/pages/create/', 'PagesController@create');
-
 Route::post('/pages/create', function () {
-
-  
   $url   = Request::input('url');
-  $dbPage = Page::whereIN('url', array($url))->get();
+  $dbPage = Page::whereIN('url', array($url))->get()->toArray();
   
-  // if($dbPage[0]['url'] === $url){
-  if($dbPage[0]['url'] === $url){
-    return Response::json("Page Already Exists");
-  }
-  else{
-    $p = new Page;
-    $p->url = $url;
-    $p->save();
-    return  Response::json("New Page Created");
-  }
-
-
-  // return a JSON response
-});
+    if($dbPage === []){
+      $p = new Page;
+      $p->url = $url;
+      $p->save();
+      return  Response::json("New Page Created");
+    }
+    else{
+      return Response::json("Page Already Exists");
+    }
+  });
