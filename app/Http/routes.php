@@ -36,13 +36,13 @@ Route::post('/pages/create', function () {
   
   // if($dbPage[0]['url'] === $url){
   if($dbPage[0]['url'] === $url){
-    return Response::json("welcome back");
+    return Response::json("Page Already Exists");
   }
   else{
     $p = new Page;
     $p->url = $url;
     $p->save();
-    return  Response::json("Welcome New User");
+    return  Response::json("New Page Created");
   }
 
 

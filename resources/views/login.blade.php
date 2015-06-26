@@ -14,7 +14,7 @@ $.ajaxSetup({
 });
 </script>
 <script>
-  $(document).ready(function() {
+  // $(document).ready(function() {
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -54,6 +54,7 @@ $.ajaxSetup({
                         // the session
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.2' // use version 2.2
+
   });
 
   // Now that we've initialized the JavaScript SDK, we call 
@@ -67,7 +68,6 @@ $.ajaxSetup({
   //    your app or not.
   //
   // These three cases are handled in the callback function.
-
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
@@ -161,7 +161,7 @@ $.ajaxSetup({
     c.getUserPerms();
     c.checkLink();  
   }
-});
+// });
 </script>
 
 <!--
