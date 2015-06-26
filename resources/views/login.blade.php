@@ -6,7 +6,9 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
-Hello
+<h2>Hello</h2>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
 $.ajaxSetup({
@@ -122,15 +124,12 @@ $.ajaxSetup({
                     type: 'POST',
                     url: url,
                     data: message,
-                    success: function(results){
-                      debugger;
+                    success: function(response){
+                      showInsights(response);
                     },
                     dataType: 'JSON'
                   })
             console.log('you did it!');
-          //   // window.location.replace("/pages/");
-
-          // $.post('/pages/create', {payload:'hello'}, onSuccess);
           }
           else{
             console.log('fail');
@@ -143,14 +142,24 @@ $.ajaxSetup({
       
 
   }
-        function onSuccess(data, status, xhr)
-      {
-        // with our success handler, we're just logging the data...
-        console.log(data, status, xhr);
 
-        // but you can do something with it if you like - the JSON is deserialised into an object
-        console.log(String(data.value).toUpperCase())
-      }
+  function showInsights(response){
+    FB.api('/65663400830/insights/page_impressions/days_28', function(results){
+    
+    var $pageImpressions = results.data[0].values[2].value;
+    var $string = '<h3>You have had ' + $pageImpressions + ' impressions in the last 28 days! Keep it up!'
+    $('h2').append($string)
+});
+
+  }
+      //   function onSuccess(data, status, xhr)
+      // {
+      //   // with our success handler, we're just logging the data...
+      //   console.log(data, status, xhr);
+
+      //   // but you can do something with it if you like - the JSON is deserialised into an object
+      //   console.log(String(data.value).toUpperCase())
+      // }
 
   checkUserAccess.prototype.checkLink = function(){
   }
@@ -170,7 +179,7 @@ $.ajaxSetup({
   the FB.login() function when clicked.
 -->
 
-<fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email,manage_pages,read_insights" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">
