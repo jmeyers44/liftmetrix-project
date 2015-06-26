@@ -137,6 +137,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         'Collective\Html\HtmlServiceProvider',
+        'Illuminate\Html\HtmlServiceProvider',
 
         /*
          * Application Service Providers...
