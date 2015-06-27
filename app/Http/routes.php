@@ -23,6 +23,8 @@ Route::get('api/pages/{url}','PagesController@index');
 
 Route::get('/pages/{id}','PagesController@show');
 
+Route::get('/pages/{id}/calculate', 'PagesController@calculate');
+
 Route::get('/pages/destroy/{id}','PagesController@destroy');
 
 Route::post('/pages/create', function () {

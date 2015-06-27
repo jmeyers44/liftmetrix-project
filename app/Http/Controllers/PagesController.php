@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Storage;
 use Illuminate\Http\Request;
 use App\Page;
 use App\Http\Requests;
@@ -9,6 +9,18 @@ use App\Http\Controllers\Controller;
 
 class PagesController extends Controller
 {
+        /**
+     * Calculations
+     *
+     * @return Response
+     */
+    public function calculate($file)
+    {   
+        $contents = Storage::get('jonathan_test.json');
+        $response = Page::phone();
+        return $response;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -55,8 +67,8 @@ class PagesController extends Controller
      */
     public function show()
     {
-        $pages = Page::all();
-        return $pages;
+        // $pages = Page::all();
+        // return $pages;
         // return view('new');
     }
 
