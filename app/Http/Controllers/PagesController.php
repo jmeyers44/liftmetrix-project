@@ -16,8 +16,8 @@ class PagesController extends Controller
      */
     public function calculate($file)
     {   
-        $contents = Storage::get('jonathan_test.json');
-        $response = Page::phone();
+        $response = Storage::get('jonathan_test.json');
+        // $response = Page::GetData();
         return $response;
     }
 
