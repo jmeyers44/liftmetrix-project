@@ -14,11 +14,15 @@ class PagesController extends Controller
      *
      * @return Response
      */
-    public function calculate($file)
+    public function calculate($id)
     {   
-        $response = Storage::get('jonathan_test.json');
-        // $response = Page::GetData();
-        return $response;
+        $page = new Page;
+        $average_posts_per_day = $page->AveragePostsPerDay();
+        $min_posts_per_day = $page->MinPostsPerDay();
+        $max_posts_per_day = $page->MaxPostsPerDay();
+        // return view('calculate')->with('average_posts_per_day', $average_posts_per_day);
+        return view('calculate')->with('average_posts_per_day', $average_posts_per_day)->with('min_posts_per_day', $min_posts_per_day)->with('max_posts_per_day', $max_posts_per_day);
+        
     }
 
     /**
