@@ -28,6 +28,7 @@ class Page extends Eloquent{
       return $this->posts / $this->days;
     }
 
+
     public function scopeMinPostsPerDay()
     {
        $lowest_post_count = array($this->dateArray[0] => count(array_keys($this->dateArray, $this->dateArray[0])));  
@@ -56,6 +57,55 @@ class Page extends Eloquent{
        return $highest_post_count;
     }
 
+
+    public function scopeAveragePostMixPerDay()
+    {
+      $typeArray = array();
+      foreach($this->data['data'] as $post){
+        $type = $post['type'];
+        array_push($typeArray, $type);
+      }
+      $typeArray = array_count_values($typeArray);
+      foreach($typeArray as $k => &$v)
+      {
+        $v = $v / $this->posts;
+      }
+      return $typeArray;
+    }
+
+    public function scopeOrganicPostImpressions()
+    {
+      $impressionArray = array();
+      $outputArray = array();
+      foreach ($this->data['data'] as $post) {
+        array_push($impressionArray, $post['insights']['data'][1]['values'][0]['value']);
+      }
+      
+      $outputArray['min'] = min($impressionArray);
+      $outputArray['max'] = max($impressionArray);
+      $outputArray['average'] = array_sum($impressionArray) / count($impressionArray);
+
+      return $outputArray;
+
+    }
+
+    public function scopePostCharacterCount()
+    {
+      $messageArray = array();
+      $outputArray = array();
+      foreach ($this->data['data'] as $post) {
+        $messageLength = strlen(utf8_decode($post['message']));
+        array_push($messageArray, $messageLength);
+      }
+      
+      $outputArray['min'] = min($messageArray);
+      $outputArray['max'] = max($messageArray);
+      $outputArray['average'] = array_sum($messageArray) / count($messageArray);
+
+      return $outputArray;
+
+    }
+
     public function scopePostDateArray()
     {
       $dateArray = array();
@@ -82,4 +132,5 @@ class Page extends Eloquent{
       $datediff = $date1 - $date2;
       return floor($datediff/(60*60*24));
     }
+
 }
