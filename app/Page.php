@@ -6,7 +6,7 @@ use File;
 use Jenssegers\Mongodb\Model as Eloquent;
 
 class Page extends Eloquent{
-    //
+  
   protected $connection = 'mongodb';
 
   public function __construct() {

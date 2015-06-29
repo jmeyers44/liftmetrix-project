@@ -16,22 +16,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        // Schema::create('', function($collection)
-        // {
-        //     $collection->index('name');
-
-        //     $collection->unique('email');
-        // });
-
-
-        $u = new User;
-        $u->name = 'Jonathan';
-        $u->save();
-        $user = User::first()->name;
-        // $user = User::all();
-        
-        $test = "HI";
-        return view('test')->with('user', $user);
+        //
     }
 
     public function login()
