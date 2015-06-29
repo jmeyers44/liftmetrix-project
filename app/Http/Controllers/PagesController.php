@@ -15,15 +15,14 @@ class PagesController extends Controller
      * @return Response
      */
     public function calculate($id)
-    {   
+    {
         $page = new Page;
-        $average_posts_per_day = $page->AveragePostsPerDay();
-        $min_posts_per_day = $page->MinPostsPerDay();
-        $max_posts_per_day = $page->MaxPostsPerDay();
-        // return view('calculate')->with('average_posts_per_day', $average_posts_per_day);
-        return view('calculate')->with('average_posts_per_day', $average_posts_per_day)->with('min_posts_per_day', $min_posts_per_day)->with('max_posts_per_day', $max_posts_per_day);
+        $calculations = $page->Calculate();
+        return $calculations;   
         
     }
+
+
 
     /**
      * Display a listing of the resource.
@@ -71,9 +70,12 @@ class PagesController extends Controller
      */
     public function show()
     {
-        // $pages = Page::all();
-        // return $pages;
-        // return view('new');
+        $page = new Page;
+        $average_posts_per_day = $page->AveragePostsPerDay();
+        $min_posts_per_day = $page->MinPostsPerDay();
+        $max_posts_per_day = $page->MaxPostsPerDay();
+        // return view('calculate')->with('average_posts_per_day', $average_posts_per_day);
+        return view('calculate')->with('average_posts_per_day', $average_posts_per_day)->with('min_posts_per_day', $min_posts_per_day)->with('max_posts_per_day', $max_posts_per_day);
     }
 
     /**
