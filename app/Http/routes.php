@@ -29,15 +29,16 @@ Route::get('/pages/destroy/{id}','PagesController@destroy');
 
 Route::post('/pages/create', function () {
   $url   = Request::input('url');
+  $pageId = Request::input('pageId');
   $dbPage = Page::whereIN('url', array($url))->get()->toArray();
   
     if($dbPage === []){
       $p = new Page;
       $p->url = $url;
       $p->save();
-      return  Response::json("New Page Created");
+      return  Response::json(array('message' => "New Page Created", 'pageId' => $pageId));
     }
     else{
-      return Response::json("Page Already Exists");
+      return Response::json(array('message' => "Page Already Exists", 'pageId' => $pageId));
     }
   });
