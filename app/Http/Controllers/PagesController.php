@@ -42,14 +42,7 @@ class PagesController extends Controller
      */
     public function create()
     {
-        // $p = new Page;
-        // $p->url = $url;
-        // $p->save();
-        // $page = Page::where('url', '==', $url)->get();
-        $data   = array('value' => 'some data', 'input' => Request::input());
 
-  // return a JSON response
-        return  Response::json($data);
     }
 
     /**
@@ -68,14 +61,13 @@ class PagesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show()
+    public function show($id)
     {
-        $page = new Page;
-        $average_posts_per_day = $page->AveragePostsPerDay();
-        $min_posts_per_day = $page->MinPostsPerDay();
-        $max_posts_per_day = $page->MaxPostsPerDay();
-        // return view('calculate')->with('average_posts_per_day', $average_posts_per_day);
-        return view('calculate')->with('average_posts_per_day', $average_posts_per_day)->with('min_posts_per_day', $min_posts_per_day)->with('max_posts_per_day', $max_posts_per_day);
+        // $page = new Page;
+        // $average_posts_per_day = $page->PostsPerDay();
+        // $min_posts_per_day = $page->MinPostsPerDay();
+        // $max_posts_per_day = $page->MaxPostsPerDay();
+        // return view('calculate')->with('average_posts_per_day', $average_posts_per_day)->with('min_posts_per_day', $min_posts_per_day)->with('max_posts_per_day', $max_posts_per_day);
     }
 
     /**
