@@ -78,9 +78,6 @@ function testAPI(callback) {
 
 function checkUserAccess(){
   this.userUrl = localStorage.getItem('url');
-  this.pageId = "";
-  this.pageURL = "";
-  this.userID = "";
 }
 
 checkUserAccess.prototype.getUserId = function(){
@@ -92,15 +89,14 @@ checkUserAccess.prototype.getUserId = function(){
 
 checkUserAccess.prototype.getUserPerms = function(){
   self = this
-  second = function(response) {
-    // all user permissions
-    self.pageObj = response.data;
-    FB.api("/",{"id": self.userUrl},function (response) {
-      self.userURLId = response.id;
+  second = function userPermmissions(third) {
+    self.permObj = third.data;
+    FB.api("/",{"id": self.userUrl},function idFromUserInput(fourth) {
+      self.userURLId = fourth.id;
       var match = false;
-      if (response && !response.error) {
-        for(i = 0; i < self.pageObj.length; i++){     
-          currentPermId = self.pageObj[i].id;     
+      if (fourth && !fourth.error) {
+        for(i = 0; i < self.permObj.length; i++){     
+          currentPermId = self.permObj[i].id;     
             if(self.userURLId === currentPermId){
               match = true;
             var url = "/pages/create";
@@ -109,8 +105,8 @@ checkUserAccess.prototype.getUserPerms = function(){
                   type: 'POST',
                   url: url,
                   data: message,
-                  success: function(response){
-                    showInsights(response);
+                  success: function(fifth){
+                    showInsights(fifth);
                   },
                   dataType: 'JSON'
                 })
@@ -121,11 +117,8 @@ checkUserAccess.prototype.getUserPerms = function(){
           alert('Sorry, it looks like you are not authorized to view that page.')
           window.location.replace("/");
         }
-        /* handle the result */
       }
     });
-    // find url of page from
-
   }
   FB.api('/'+ this.userID + '/accounts', second);
 }
@@ -143,6 +136,5 @@ function showInsights(response){
 function runUserCheck(){
   var c = new checkUserAccess;
   c.getUserId();
-  c.getUserPerms();
-  // c.checkLink();  
+  c.getUserPerms();  
 }
