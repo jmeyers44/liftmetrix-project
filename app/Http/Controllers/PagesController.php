@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Storage;
 use Illuminate\Http\Request;
 use App\Page;
+use App\Calculate;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -16,8 +17,8 @@ class PagesController extends Controller
      */
     public function calculate($id)
     {
-        $page = new Page;
-        $calculations = $page->Calculate();
+        $calc = new Calculate;
+        $calculations = $calc->Runner();
         return $calculations;   
         
     }
