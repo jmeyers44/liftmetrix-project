@@ -13,7 +13,7 @@ class Calculate extends Eloquent{
     $this->data = $this->GetData();
     $this->posts = $this->TotalPosts();
     $this->days = $this->TotalDays();
-    $this->dateArray = $this->PostDateArray();
+    $this->ParsePosts();
   }
 
   public function scopeGetData()
@@ -66,11 +66,7 @@ class Calculate extends Eloquent{
 
   public function scopePostMixPerDay()
   {
-    $typeArray = array();
-    foreach($this->data['data'] as $post){
-      $type = $post['type'];
-      array_push($typeArray, $type);
-    }
+    $typeArray = $this->typeArray;
     $typeArray = array_count_values($typeArray);
     foreach($typeArray as $k => &$v)
     {
@@ -81,12 +77,8 @@ class Calculate extends Eloquent{
 
   public function scopeOrganicPostImpressions()
   {
-    $impressionArray = array();
-    $outputArray = array();
-    foreach ($this->data['data'] as $post) {
-      array_push($impressionArray, $post['insights']['data'][1]['values'][0]['value']);
-    }
-    
+    $impressionArray = $this->impressionArray;
+    $outputArray = array();    
     $outputArray['min'] = min($impressionArray);
     $outputArray['max'] = max($impressionArray);
     $outputArray['average'] = array_sum($impressionArray) / count($impressionArray);
@@ -97,13 +89,8 @@ class Calculate extends Eloquent{
 
   public function scopePostCharacterCount()
   {
-    $messageArray = array();
-    $outputArray = array();
-    foreach ($this->data['data'] as $post) {
-      $messageLength = strlen(utf8_decode($post['message']));
-      array_push($messageArray, $messageLength);
-    }
-    
+    $messageArray = $this->messageArray;
+    $outputArray = array();    
     $outputArray['min'] = min($messageArray);
     $outputArray['max'] = max($messageArray);
     $outputArray['average'] = array_sum($messageArray) / count($messageArray);
@@ -112,16 +99,31 @@ class Calculate extends Eloquent{
 
   }
 
-  public function scopePostDateArray()
+  public function scopeParsePosts()
   {
     $dateArray = array();
+    $messageArray = array();
+    $impressionArray = array();
+    $typeArray = array();
     foreach($this->data['data'] as $post){
+      // add to dateArray
       $datetime = $post['created_time'];
       $date = date('Y-m-d', strtotime($datetime));
       array_push($dateArray, $date);
+      // add to messageArray
+      $messageLength = strlen(utf8_decode($post['message']));
+      array_push($messageArray, $messageLength);
+      // add to impressionArray
+      array_push($impressionArray, $post['insights']['data'][1]['values'][0]['value']);
+      // add to typeArray
+      $type = $post['type'];
+      array_push($typeArray, $type);
     }
-    return $dateArray;
 
+    $this->dateArray = $dateArray;
+    $this->messageArray = $messageArray;
+    $this->impressionArray = $impressionArray;
+    $this->typeArray = $typeArray;
   }
 
   public function scopeTotalPosts()
