@@ -92,13 +92,19 @@ checkUserAccess.prototype.getUserId = function(){
 
 checkUserAccess.prototype.getUserPerms = function(){
   self = this
-  cb = function(response) {
-    self.pageId = response.data[0].id;
-    FB.api('/' + self.pageId + '', function(response){
-      self.pageURL = response.link
-        if(self.userUrl === self.pageURL){
+  second = function(response) {
+    // all user permissions
+    self.pageObj = response.data;
+    FB.api("/",{"id": self.userUrl},function (response) {
+      self.userURLId = response.id;
+      var match = false;
+      if (response && !response.error) {
+        for(i = 0; i < self.pageObj.length; i++){     
+          currentPermId = self.pageObj[i].id;     
+            if(self.userURLId === currentPermId){
+              match = true;
             var url = "/pages/create";
-            var message = {url: self.userUrl, pageId: self.pageId};
+            var message = {url: self.userUrl, pageId: currentPermId};
                 $.ajax({
                   type: 'POST',
                   url: url,
@@ -108,17 +114,24 @@ checkUserAccess.prototype.getUserPerms = function(){
                   },
                   dataType: 'JSON'
                 })
+                break;
+          }
         }
-        else{
+        if(!match){
           alert('Sorry, it looks like you are not authorized to view that page.')
           window.location.replace("/");
         }
+        /* handle the result */
+      }
     });
+    // find url of page from
+
   }
-  FB.api('/'+ this.userID + '/accounts', cb);
+  FB.api('/'+ this.userID + '/accounts', second);
 }
 
 function showInsights(response){
+  self = this;
   FB.api('/' + response.pageId + '/insights/page_impressions/days_28', function(results){
     var $pageImpressions = results.data[0].values[2].value;
     var $string = '<h3>You have had ' + $pageImpressions + ' impressions in the last 28 days! Keep it up!'
@@ -131,5 +144,5 @@ function runUserCheck(){
   var c = new checkUserAccess;
   c.getUserId();
   c.getUserPerms();
-  c.checkLink();  
+  // c.checkLink();  
 }
