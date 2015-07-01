@@ -5,6 +5,7 @@ use Storage;
 use Illuminate\Http\Request;
 use App\Page;
 use App\Calculate;
+use App\TimeRecommendation;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -19,6 +20,30 @@ class PagesController extends Controller
     {
         $calc = new Calculate;
         $calculations = $calc->Runner();
+        return $calculations;   
+        
+    }
+
+    public function highestaverage($id)
+    {
+        $recommended = new TimeRecommendation;
+        $calculations = $recommended->HighestAverage();
+        return $calculations;   
+        
+    }
+
+    public function totals($id)
+    {
+        $recommended = new TimeRecommendation;
+        $calculations = $recommended->sortedData;
+        return $calculations;   
+        
+    }
+
+        public function hourlytotals($id)
+    {
+        $recommended = new TimeRecommendation;
+        $calculations = $recommended->hourlyTotals;
         return $calculations;   
         
     }

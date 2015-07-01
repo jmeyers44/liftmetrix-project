@@ -91,7 +91,7 @@ checkUserAccess.prototype.getUserPerms = function(){
   self = this
   second = function userPermmissions(third) {
     self.permObj = third.data;
-    FB.api("/",{"id": self.userUrl},function idFromUserInput(fourth) {
+    FB.api("/",{"id": self.userUrl},function idFromUserURLInput(fourth) {
       self.userURLId = fourth.id;
       var match = false;
       if (fourth && !fourth.error) {

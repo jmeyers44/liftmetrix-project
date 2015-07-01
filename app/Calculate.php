@@ -41,7 +41,7 @@ class Calculate extends Eloquent{
       if ($current_count < reset($lowest_post_count)){
         $lowest_post_count = array($date => $current_count);
       } 
-      elseif($current_count <= reset($lowest_post_count)){
+      elseif($current_count == reset($lowest_post_count)){
         $lowest_post_count[$date] = $current_count;
       }
     }

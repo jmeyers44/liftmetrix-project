@@ -25,6 +25,12 @@ Route::get('/pages/{id}','PagesController@show');
 
 Route::get('/pages/{id}/calculate', 'PagesController@calculate');
 
+Route::get('/pages/{id}/totals', 'PagesController@totals');
+
+Route::get('/pages/{id}/totals/hourly', 'PagesController@hourlytotals');
+
+Route::get('/pages/{id}/totals/hourly/highestaverage', 'PagesController@highestaverage');
+
 Route::get('/pages/destroy/{id}','PagesController@destroy');
 
 Route::post('/pages/create', function () {
